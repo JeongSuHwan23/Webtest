@@ -233,7 +233,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
   function populateDistricts() {
     const guSelect = document.getElementById('guNames');
-
     districts.guNames.forEach(gu => {
       const option = document.createElement('option');
       option.value = gu;
@@ -243,17 +242,36 @@ document.addEventListener('DOMContentLoaded', (event) => {
   }
 
   function redirectToSelectPage(selectedGu) {
+    const hospitals = hospitalsByDistrict[selectedGu] || [];
+    localStorage.setItem('selectedGu', selectedGu);
+    localStorage.setItem('hospitals', JSON.stringify(hospitals));
     window.location.href = `select.html?gu=${encodeURIComponent(selectedGu)}`;
   }
+
+  function readDistrict(selectedGu) {
+    const msg = new SpeechSynthesisUtterance(selectedGu);
+    msg.lang = 'ko-KR';
+    window.speechSynthesis.speak(msg);
+  }
+
   populateDistricts();
 
   const guSelect = document.getElementById('guNames');
   const areaBtn = document.getElementById('areaBtn');
   
+  guSelect.addEventListener('change', () => {
+    const selectedGu = guSelect.value;
+    if (selectedGu) {
+      readDistrict(selectedGu);
+    }
+  });
+
   areaBtn.addEventListener('click', () => {
     const selectedGu = guSelect.value;
     if (selectedGu) {
       redirectToSelectPage(selectedGu);
+    } else {
+      alert('지역을 선택하세요.');
     }
   });
 });
