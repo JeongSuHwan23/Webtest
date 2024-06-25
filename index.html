@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <form name="city">
+      <fieldset>
+        <legend> 도시 정보 </legend>
+        <table id="cityinfo">
+          <tr>
+            <td><label>도시</label></td>
+            <td><select id="citySelect">
+                <option>부산광역시</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><label class="districts" for="guNames">지역</label></td>
+            <td><select class="guNames" id="guNames">
+                <option>--- 지역 선택 ---</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" align="center">
+              <button type="button" class="areaBtn" id="areaBtn">지역조회</button>
+            </td>
+          </tr>
+        </table>
+      </fieldset>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      const areaBtn = document.getElementById('areaBtn');
+      areaBtn.addEventListener('click', () => {
+        const selectedGu = document.getElementById('guNames').value;
+        redirectToSelectPage(selectedGu);
+      });
+
+      function redirectToSelectPage(selectedGu) {
+        window.location.href = `select.html?gu=${encodeURIComponent(selectedGu)}`;
+      }
+    });
+  </script>
+</body>
+</html>
